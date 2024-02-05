@@ -11,9 +11,16 @@ const pool = mysql.createPool({
 });
 
 const createTable = (request, response) => {
-  pool.query("CREATE TABLE students (student_id INT PRIMARY KEY)");
+  pool.query(
+    `CREATE TABLE students (
+      student_id INT, 
+      name VARCHAR(20), 
+      major VARCHAR(20),
+      PRIMARY KEY(student_id)
+    )`
+  );
 
-  response.status(200).json({ status: 200, message: "success!" });
+  response.status(200).json({ status: 200 });
 };
 
 module.exports = { createTable };
