@@ -1,4 +1,5 @@
 const mysql = require("mysql2/promise");
+const errorResponse = require("../helpers/errorResponse");
 
 const pool = mysql.createPool({
   host: "localhost",
@@ -21,30 +22,27 @@ const createTable = async (request, response) => {
     )`
     );
 
-    response.status(200).json({ status: 200 });
+    return response.status(200).json({ status: 200 });
   } catch (error) {
-    console.error(error);
-    response.status(500).json({ status: 500, message: error.message });
+    errorResponse(error, response);
   }
 };
 
 const deleteTable = async (request, response) => {
   try {
     await pool.query(`DROP TABLE students`);
-    response.status(204).json();
+    return response.status(204).json();
   } catch (error) {
-    console.error(error);
-    response.status(500).json({ status: 500, message: error.message });
+    errorResponse(error, response);
   }
 };
 
 const describeTable = async (request, response) => {
   try {
     const [results] = await pool.query(`DESCRIBE students`);
-    response.status(200).json({ status: 200, data: results });
+    return response.status(200).json({ status: 200, data: results });
   } catch (error) {
-    console.error(error);
-    response.status(500).json({ status: 500, message: error.message });
+    errorResponse(error, response);
   }
 };
 
