@@ -28,6 +28,16 @@ const createTable = async (request, response) => {
   }
 };
 
+const deleteTable = async (request, response) => {
+  try {
+    await pool.query(`DROP TABLE students`);
+    response.status(204).json();
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ status: 500, message: error.message });
+  }
+};
+
 const describeTable = async (request, response) => {
   try {
     const [results] = await pool.query(`DESCRIBE students`);
@@ -38,4 +48,4 @@ const describeTable = async (request, response) => {
   }
 };
 
-module.exports = { createTable, describeTable };
+module.exports = { createTable, deleteTable, describeTable };
